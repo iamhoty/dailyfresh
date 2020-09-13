@@ -1,0 +1,71 @@
+{% extends 'base_datail_list.html' %}
+{% load static %}
+{% block title %}天天生鲜-商品搜索结果列表{% endblock %}
+{% block body %}
+    <div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+					<li><a href="{% url 'goods:list' 1 1 %}" class="fruit">新鲜水果</a></li>
+					<li><a href="{% url 'goods:list' 2 1 %}" class="seafood">海鲜水产</a></li>
+					<li><a href="{% url 'goods:list' 3 1 %}" class="meet">猪牛羊肉</a></li>
+					<li><a href="{% url 'goods:list' 4 1 %}" class="egg">禽类蛋品</a></li>
+					<li><a href="{% url 'goods:list' 5 1 %}" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="{% url 'goods:list' 6 1 %}" class="ice">速冻食品</a></li>
+				</ul>
+			</div>
+			<ul class="navlist fl">
+				<li><a href="{% url 'goods:index' %}">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+    {% block main_content %}
+        <div class="breadcrumb">
+            <a href="/search?q={{ query }}">{{ query }}</a>
+            <span>></span>
+            <a href="#">搜索结果如下</a>
+        </div>
+
+        <div class="main_wrap clearfix">
+            <ul class="goods_type_list clearfix">
+                {% for item in page %}
+                    <li>
+                        <a href="{% url 'goods:detail' item.object.id %}"><img src="/static/images/goods/goods00{{ forloop.counter }}.jpg"></a>
+                        <h4><a href="{% url 'goods:detail' item.object.id %}">{{ item.object.name }}</a></h4>
+                        <div class="operate">
+                            <span class="prize">￥{{ item.object.price }}</span>
+                            <span class="unit">{{ item.object.price }}/{{ item.object.unite }}</span>
+                            <a href="#" class="add_goods" title="加入购物车"></a>
+                        </div>
+                    </li>
+                {% empty %}
+                    <p>没有找到你要查询的商品</p>
+                {% endfor %}
+            </ul>
+
+            <div class="pagenation">
+                 {% if page.has_previous %}
+                    <a href="/search?q={{ query }}&page={{ page.previous_page_number }}"><上一页</a>
+                {% endif %}
+                {# {% for pindex in skus_age.paginator.page_range %} #}
+                {% for pindex in paginator.page_range %}
+                    {% if pindex == page.number %}
+                        <a href="/search?q={{ query }}&page={{ pindex }}" class="active">{{ pindex }}</a>
+                    {% else %}
+                        <a href="/search?q={{ query }}&page={{ pindex }}">{{ pindex }}</a>
+                    {% endif %}
+                {% endfor %}
+                {% if page.has_next %}
+                    <a href="/search?q={{ query }}&page={{ page.next_page.number }}">下一页></a>
+                {% endif %}
+            </div>
+        </div>
+    {% endblock %}
+{% endblock %}
+	

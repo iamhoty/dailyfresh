@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+    <a href="#" class='testpay'>点击</a>
+    <form method="POST" action="/cart/testpay/">
+        {% csrf_token %}
+        <input type="text" name="money">
+        <input type="submit" value="去支付" />
+    </form>
+</body>
+<script src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+    <script>
+        $('.testpay').click(function () {
+            alert(123213);
+            order_id = 1;
+            status = 2;
+            csrf = $('input[name="csrfmiddlewaretoken"]').val();
+            params = {'order_id':order_id,'status':status,"csrfmiddlewaretoken":csrf};
+
+            $.post('/cart/testpay/',params,function (data) {
+                    alert(1);
+                });
+        });
+{#         $('.testpay').click(function (){#}
+{#             click_submit()#}
+{#         })#}
+
+{#        function click_submit() {#}
+{#            order_id = 1;#}
+{#            status = 2;#}
+{#            csrf = $('input[name="csrfmiddlewaretoken"]').val();#}
+{#            params = {'order_id':order_id,'status':status,"csrfmiddlewaretoken":csrf};#}
+{#            $.ajax({#}
+{#                    url: '/cart/testpay/',#}
+{#                    type: 'post',#}
+{#                    data:params,#}
+{#                    dataType: 'json',#}
+{#                    success: function (data) {#}
+{#                        alert(1232)#}
+{#                    },error:function (data) {#}
+{#                    console.log(data)#}
+{#                }#}
+{#                });#}
+{#        }#}
+
+    </script>
+</html>
